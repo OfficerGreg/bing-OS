@@ -1,10 +1,6 @@
 #!/bin/bash
 
+cd ./src/
+nasm -f bin -o ../bin/boot_sect_main.bin boot_sect_main.asm
 
-nasm -f bin -o boot_sector.bin boot_sector.asm
-nasm -f bin -o print.bin print.asm
-nasm -f bin -o print_hez.bin print_hex.asm
-
-cat boot_sector.bin print.bin print_hex.bin > main.bin
-
-qemu-system-i386 -fda main.bin
+qemu-system-i386 -fda ../bin/boot_sect_main.bin
