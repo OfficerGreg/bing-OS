@@ -1,6 +1,6 @@
 #!/bin/bash
 
 cd ./src/
-nasm -f bin -o ../bin/boot_sect_main.bin boot_sect_main.asm
+nasm -f bin -o ../bin/32bit_main.bin 32bit_main.asm
 
-qemu-system-i386 -fda ../bin/boot_sect_main.bin
+qemu-system-x86_64 -fda ../bin/32bit_main.bin
