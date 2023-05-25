@@ -17,7 +17,7 @@
 [bits 32]
 BEGIN_PM:
     mov ebx, MSG_PROT_MODE
-    call print_string_pm_done   ;   Top left
+    call print_string_pm   ;   Top left
     jmp $
 
 MSG_REAL_MODE db "Started in 16-bit real mode", 0
