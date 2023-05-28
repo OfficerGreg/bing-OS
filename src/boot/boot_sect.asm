@@ -16,14 +16,14 @@ KERNEL_OFFSET equ 0x1000	; CONSTANT = memory offset which will load the kernel
 	jmp $
 
 
-%include "boot_sect_print.asm"
-%include "boot_sect_print_hex.asm"
+%include "print.asm"
+%include "print_hex.asm"
 
-%include "boot_sect_disk.asm"
+%include "disk.asm"
 
-%include "32bit/32bit_gdt.asm"
-%include "32bit/32bit_print.asm"
-%include "32bit/32bit_switch.asm"
+%include "gdt.asm"
+%include "32bit_print.asm"
+%include "switch_pm.asm"
 
 [bits 16]
 load_kernel:

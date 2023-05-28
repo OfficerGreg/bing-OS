@@ -28,7 +28,7 @@ echo -e "${Green}Compiled the kernel${Color_Off}"
 
 i386-elf-ld -o ../../$BIN_DIR/kernel.bin -Ttext 0x1000 kernel.o --oformat binary
 
-echo -e "${Green}Linked the kernel${Color_Off}"
+echo -e "${Green}Linked the kernel with boot sector${Color_Off}"
 
 rm -f kernel.o
 
