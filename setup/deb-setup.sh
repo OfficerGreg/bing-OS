@@ -48,3 +48,14 @@ sudo make install-target-libgcc
 echo HERE U GO MAYBE:
 ls /usr/local/i386elfgcc/bin
 export PATH="$PATH:/usr/local/i386elfgcc/bin"
+
+cd /tmp/src
+curl -O http://ftp.rediris.es/mirror/GNU/gdb/gdb-7.8.tar.gz
+tar xf gdb-7.8.tar.gz
+mkdir gdb-build
+cd gdb-build
+export PREFIX="/usr/local/i386elfgcc"
+export TARGET=i386-elf
+../gdb-7.8/configure --target="$TARGET" --prefix="$PREFIX" --program-prefix=i386-elf-
+make
+make install
