@@ -1,5 +1,6 @@
 #include "screen.h"
 #include "ports.h"
+#include "../kernel/util.h"
 
 
 //private functions
@@ -40,7 +41,7 @@ void kprint(char* message){
     kprint_at(message, -1, -1);
 }
 
-//private kernel functions
+
 
 void clear_screen(){
     int screen_size = MAX_ROWS * MAX_COLS;
@@ -53,6 +54,8 @@ void clear_screen(){
     }
     set_cursor_offset(get_offset(0, 0));
 }
+
+//private kernel functions
 
 int get_cursor_offset(){
     /* Use the VGA ports to get the current cursor position
@@ -99,6 +102,20 @@ int print_char(char c, int col, int row, char attr){
         vid_mem[offset] = c;
         vid_mem[offset+1] = attr;
         offset += 2;
+    }
+
+    if(offset >= MAX_COLS * MAX_ROWS * 2){
+        for(int i = 1; i < MAX_ROWS; i++){
+            memory_copy(
+                get_offset(0, i) + VIDEO_ADDRESS, 
+                get_offset(0, i-1) + VIDEO_ADDRESS,
+                MAX_COLS * 2);
+        }
+        char *last_line = get_offset(0, MAX_ROWS-1) + VIDEO_ADDRESS;
+        for(int i = 0; i < MAX_COLS * 2; i++){
+            last_line[i] = 0;
+        }
+        offset -= 2 * MAX_COLS;
     }
     set_cursor_offset(offset);
     return offset;
