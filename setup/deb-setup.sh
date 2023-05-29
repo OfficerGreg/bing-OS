@@ -49,6 +49,7 @@ echo HERE U GO MAYBE:
 ls /usr/local/i386elfgcc/bin
 export PATH="$PATH:/usr/local/i386elfgcc/bin"
 
+#optional for debugging
 cd /tmp/src
 curl -O http://ftp.rediris.es/mirror/GNU/gdb/gdb-7.8.tar.gz
 tar xf gdb-7.8.tar.gz
