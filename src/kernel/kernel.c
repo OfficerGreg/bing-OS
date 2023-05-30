@@ -9,7 +9,10 @@ void main() {
         int_to_ascii(i, str);
         kprint_at(str, 0, i);
     }
+    char testing[] = "!olleHs";
+    str_rev(testing);
 
-    kprint_at("This text forces the kernel to scroll. Row 0 will disappear. ", 60, 24);
-    kprint("And with this text, the kernel will scroll again, and row 1 will disappear too!");
+
+    kprint_at("Testing: ", 60, 24);
+    kprint(testing);
 }
