@@ -18,9 +18,6 @@ void int_to_ascii(int n, char str[]) {
     str[i] = '\0';
 }
 
-void ascii_to_int(int n, char str[]){
-    
-}
 
 void str_rev(char str[]){
     int length = str_length(str);

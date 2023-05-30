@@ -7,6 +7,7 @@ void main() {
     for (i = 0; i < 24; i++) {
         char str[255];
         int_to_ascii(i, str);
+        str_rev(str);
         kprint_at(str, 0, i);
     }
     char testing[] = "!olleHs";
