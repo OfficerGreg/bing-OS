@@ -12,7 +12,7 @@ void main() {
     }
     char testing[] = "!olleHs";
     str_rev(testing);
-
+    
 
     kprint_at("Testing: ", 60, 24);
     kprint(testing);

@@ -1,5 +1,5 @@
 #include "util.h"
-#include "types.h"
+#include "../cpu/types.h"
 
 void memory_copy(char* source, char* dest, int n_bytes){
     for(int i = 0; i < n_bytes; i++){
@@ -28,7 +28,7 @@ void int_to_ascii(int n, char str[]) {
 
 
 void str_rev(char str[]){
-    int length = str_length(str);
+    int length = str_len(str);
 
     for(int i = 0; i < length/2; i++){
         char temp = str[i];
@@ -37,9 +37,9 @@ void str_rev(char str[]){
     }
 }
 
-int str_length(char str[]){
-    int count;
-    for(count = 0; str[count] != '\0'; count++);
-
+int str_len(char str[]){
+    int count; 
+    for(count = 0; str[count] != '\0'; count++); 
+    
     return count;
 }

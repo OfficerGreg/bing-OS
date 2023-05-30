@@ -8,6 +8,6 @@ void ascii_to_int(int n, char str[]);
 
 void str_rev(char str[]);
 
-int str_length(char str[]);
+int str_len(char str[]);
 
 #endif
