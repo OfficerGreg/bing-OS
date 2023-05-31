@@ -41,7 +41,19 @@ void kprint(char* message){
     kprint_at(message, -1, -1);
 }
 
+void kprint_num(u32 num){
+    char str[255];
+    int_to_ascii(num, str);
+    str_rev(str);
+    kprint(str);
+}
 
+void kprint_num_at(u32 num, int col, int row){
+    char str[255];
+    int_to_ascii(num, str);
+    str_rev(str);
+    kprint_at(str, col, row);
+}
 
 void clear_screen(){
     int screen_size = MAX_ROWS * MAX_COLS;

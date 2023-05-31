@@ -19,10 +19,11 @@ void main() {
 
     kprint_at("Testing: ", 60, 24);
     kprint(testing);
-
-    isr_install();
-    /* Test the interrupts */
-    __asm__ __volatile__("int $2");
+    kprint_num(10);
+    kprint_num_at(20, 65, 0);
+    // isr_install();
+    // /* Test the interrupts */
+    // __asm__ __volatile__("int $2");
 
 
 }

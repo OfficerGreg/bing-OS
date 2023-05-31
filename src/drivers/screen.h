@@ -1,6 +1,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
+#include "../cpu/types.h"
 
 #define VIDEO_ADDRESS   0xb8000
 
@@ -18,5 +19,8 @@ void clear_screen();
 
 void kprint_at(char* message, int col, int row);
 void kprint(char* message);
+
+void kprint_num(u32 num);
+void kprint_num_at(u32 num, int col, int row);
 
 #endif
