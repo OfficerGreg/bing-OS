@@ -1,6 +1,7 @@
 #include "screen.h"
 #include "../cpu/ports.h"
 
+#include "../libc/string.h"
 #include "../libc/mem.h"
 
 //private functions
@@ -65,7 +66,7 @@ void kprint_backspace(){
 void clear_screen(){
     int screen_size = MAX_ROWS * MAX_COLS;
     int i;
-    char *screen = VIDEO_ADDRESS;
+    char *screen = (char*)VIDEO_ADDRESS;
 
     for(i = 0; i < screen_size; i++){
         screen[i*2] = ' ';

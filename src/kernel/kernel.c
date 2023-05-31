@@ -18,8 +18,15 @@ void user_input(char* input){
     if(str_cmp(input, "exit") == 0){
         kprint("baj baj!!.\n");
         asm volatile("hlt");
+    }else if(str_cmp(input, "clear") == 0){
+        clear_screen();
+        kprint("$ ");
+    }else if(str_cmp(input, "") == 0){
+        kprint("$ ");
     }
-    kprint(input);
-    kprint(": Command not found");
-    kprint("\n$ ");
+    else{
+        kprint(input);
+        kprint(": Command not found");
+        kprint("\n$ ");
+    }
 }
