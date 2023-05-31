@@ -1,19 +1,7 @@
-#include "util.h"
+#include "string.h"
 
-void memory_copy(char* source, char* dest, int n_bytes){
-    for(int i = 0; i < n_bytes; i++){
-        *(dest + i) = *(source+i);
-    }
-}
 
-void memory_set(u8 *dest, u8 val, u32 len){
-    u8 * temp = (u8 *)dest;
-    for(len; len != 0; len--){
-        *temp++ = val;
-    }
-}
-
-void int_to_ascii(int n, char str[]) {
+void int_to_ascii(int n, char str[]){
     int i, sign;
     if ((sign = n) < 0) n = -n;
     i = 0;
@@ -24,7 +12,6 @@ void int_to_ascii(int n, char str[]) {
     if (sign < 0) str[i++] = '-';
     str[i] = '\0';
 }
-
 
 void str_rev(char str[]){
     int length = str_len(str);
@@ -41,4 +28,28 @@ int str_len(char str[]){
     for(count = 0; str[count] != '\0'; count++); 
     
     return count;
+}
+
+void backspace(char str[]) {
+    int len = str_len(str);
+    str[len-1] = '\0';
+}
+
+char chrupper(char chr) {
+  if((chr>96) && (chr<123)) chr ^=0x20;
+  return chr;
+}
+
+void append(char str[], char n) {
+    int len = str_len(str);
+    str[len] = n;
+    str[len+1] = '\0';
+}
+
+int str_cmp(char str_1[], char str_2[]) {
+    int i;
+    for (i = 0; str_1[i] == str_2[i]; i++) {
+        if (str_1[i] == '\0') return 0;
+    }
+    return str_1[i] - str_2[i];
 }

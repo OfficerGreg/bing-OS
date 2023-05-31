@@ -1,7 +1,7 @@
 #include "screen.h"
-#include "ports.h"
-#include "../kernel/util.h"
+#include "../cpu/ports.h"
 
+#include "../libc/mem.h"
 
 //private functions
 int get_cursor_offset();
@@ -55,6 +55,13 @@ void kprint_num_at(u32 num, int col, int row){
     kprint_at(str, col, row);
 }
 
+void kprint_backspace(){
+    int offset = get_cursor_offset()-2;
+    int row = get_offset_row(offset);
+    int col = get_offset_col(offset);
+    print_char(0x08, col, row, WHITE_ON_BLACK);
+}
+
 void clear_screen(){
     int screen_size = MAX_ROWS * MAX_COLS;
     int i;
@@ -91,44 +98,48 @@ void set_cursor_offset(int offset){
     port_byte_out(REG_SCREEN_DATA, (unsigned char)(offset & 0xff));
 }
 
-int print_char(char c, int col, int row, char attr){
-    unsigned char* vid_mem = (unsigned char*) VIDEO_ADDRESS;
-    if(!attr) attr = WHITE_ON_BLACK;
+int print_char(char c, int col, int row, char attr) {
+    u8 *vidmem = (u8*) VIDEO_ADDRESS;
+    if (!attr) attr = WHITE_ON_BLACK;
 
-    //Error handling --> prints red E on scren if coords are wrong
-    if(col >= MAX_COLS || row >= MAX_ROWS){
-        vid_mem[2*(MAX_COLS)*(MAX_ROWS)-2] = 'E';
-        vid_mem[2*(MAX_COLS)*(MAX_ROWS)-1] = RED_ON_BLACK;
-
+    /* Error control: print a red 'E' if the coords aren't right */
+    if (col >= MAX_COLS || row >= MAX_ROWS) {
+        vidmem[2*(MAX_COLS)*(MAX_ROWS)-2] = 'E';
+        vidmem[2*(MAX_COLS)*(MAX_ROWS)-1] = RED_ON_WHITE;
         return get_offset(col, row);
     }
 
     int offset;
-    if(col >= 0 && row >= 0) offset = get_offset(col, row);
+    if (col >= 0 && row >= 0) offset = get_offset(col, row);
     else offset = get_cursor_offset();
 
-    if(c == '\n'){
+    if (c == '\n') {
         row = get_offset_row(offset);
         offset = get_offset(0, row+1);
-    }else{
-        vid_mem[offset] = c;
-        vid_mem[offset+1] = attr;
+    } else if (c == 0x08) { /* Backspace */
+        vidmem[offset] = ' ';
+        vidmem[offset+1] = attr;
+    } else {
+        vidmem[offset] = c;
+        vidmem[offset+1] = attr;
         offset += 2;
     }
 
-    if(offset >= MAX_COLS * MAX_ROWS * 2){
-        for(int i = 1; i < MAX_ROWS; i++){
-            memory_copy(
-                get_offset(0, i) + VIDEO_ADDRESS, 
-                get_offset(0, i-1) + VIDEO_ADDRESS,
-                MAX_COLS * 2);
-        }
-        char *last_line = get_offset(0, MAX_ROWS-1) + VIDEO_ADDRESS;
-        for(int i = 0; i < MAX_COLS * 2; i++){
-            last_line[i] = 0;
-        }
+    /* Check if the offset is over screen size and scroll */
+    if (offset >= MAX_ROWS * MAX_COLS * 2) {
+        int i;
+        for (i = 1; i < MAX_ROWS; i++) 
+            memory_copy((u8*)(get_offset(0, i) + VIDEO_ADDRESS),
+                        (u8*)(get_offset(0, i-1) + VIDEO_ADDRESS),
+                        MAX_COLS * 2);
+
+        /* Blank last line */
+        char *last_line = (char*) (get_offset(0, MAX_ROWS-1) + (u8*) VIDEO_ADDRESS);
+        for (i = 0; i < MAX_COLS * 2; i++) last_line[i] = 0;
+
         offset -= 2 * MAX_COLS;
     }
+
     set_cursor_offset(offset);
     return offset;
 }

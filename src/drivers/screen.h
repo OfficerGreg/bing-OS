@@ -9,7 +9,7 @@
 #define MAX_COLS        80
 
 #define WHITE_ON_BLACK  0x0f
-#define RED_ON_BLACK    0xf4
+#define RED_ON_WHITE    0xf4
 
 // Screen I/O Ports
 #define REG_SCREEN_CTRL 0x3d4
@@ -22,5 +22,7 @@ void kprint(char* message);
 
 void kprint_num(u32 num);
 void kprint_num_at(u32 num, int col, int row);
+
+void kprint_backspace();
 
 #endif

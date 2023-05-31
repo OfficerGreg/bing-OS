@@ -1,18 +1,19 @@
 #include "timer.h"
-
 #include "isr.h"
+#include "ports.h"
 
-#include "../drivers/screen.h"
+#include "../libc/function.h"
 
 
 u32 tick;
 
-
 static void timer_callback(registers_t regs){
     tick++;
-    kprint("Tick: ");
-    kprint_num(tick);
-    kprint("\n");
+    UNUSED(regs);
+    //Debug    
+    // kprint("Tick: ");
+    // kprint_num(tick);
+    // kprint("\n");
 }
 
 void init_timer(u32 frequency){
@@ -26,7 +27,6 @@ void init_timer(u32 frequency){
     // divisor has to be sent byte-wise
     u8 low = (u8)(divisor & 0xFF);
     u8 high = (u8)((divisor >> 8) & 0xFF);
-
 
     // Send out command byte
     port_byte_out(0x43, 0x36);
